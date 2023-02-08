@@ -1,0 +1,35 @@
+version: '3.8'
+
+services: 
+  node_backend:
+    container_name: node_expresspostgress
+    image: node_expresspostgress:0.0.10
+    build: 
+      context: .
+    ports:
+      - "3001:3001"
+    environment: 
+      - EXTERNAL_PORT=3001
+      - PGDATABASE=employee_db
+      - PGUSER=rancharaz
+      - PGPASSWORD=12345
+      - PGHOST=node_db
+    depends_on: 
+      - node_db
+  node_db: 
+    container_name: node_db
+    image: "postgres:12"
+    ports:
+      - "5432:5432"
+    environment: 
+      - POSTGRES_USER=rancharaz
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_DB=employee_db
+    volumes:
+      - nps_data:/var/lib/postgresql@15/data:rw
+
+volumes:
+  nps_data: {}
+
+  
+    
